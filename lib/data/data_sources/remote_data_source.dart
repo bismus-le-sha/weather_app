@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../../core/constants/constants.dart';
-import '../../core/error/exception.dart';
+import '../../core/constants/url_handler.dart';
+import '../../core/error/exceptions.dart';
 import '../models/weather_model.dart';
 
 abstract class WeatherRemoteDataSource {
@@ -18,7 +18,8 @@ class WeatherRemoteDataSourceImpl extends WeatherRemoteDataSource {
         await client.get(Uri.parse(Urls.currentWeatherByName(cityName)));
 
     if (response.statusCode == 200) {
-      return WeatherModel.fromJson(json.decode(response.body));
+      final decodedBody = utf8.decode(response.bodyBytes);
+      return WeatherModel.fromJson(jsonDecode(decodedBody));
     } else {
       throw ServerException();
     }

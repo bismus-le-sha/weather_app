@@ -1,15 +1,18 @@
 import 'package:dartz/dartz.dart';
+import 'package:weather_app/domain/usecases/params.dart';
 
-import '../../core/error/failure.dart';
+import '../../core/error/failures.dart';
+import '../../core/usecase/usecase.dart';
 import '../entities/weather.dart';
 import '../repositories/weather_repository.dart';
 
-class GetCurrentWeatherUseCase {
+class GetCurrentWeather implements UseCase<WeatherEntity, WeatherParams> {
   final WeatherRepository weatherRepository;
 
-  GetCurrentWeatherUseCase(this.weatherRepository);
+  GetCurrentWeather(this.weatherRepository);
 
-  Future<Either<Failure, WeatherEntity>> execute(String cityName) {
-    return weatherRepository.getCurrentWeather(cityName);
+  @override
+  Future<Either<Failure, WeatherEntity>> call(WeatherParams params) {
+    return weatherRepository.getCurrentWeather(params.cityName);
   }
 }

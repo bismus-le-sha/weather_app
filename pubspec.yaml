@@ -19,6 +19,9 @@ dependencies:
   get_it: ^8.0.3
   http: ^1.2.2
   rxdart: ^0.28.0
+  shared_preferences: ^2.3.4
+  internet_connection_checker_plus: ^2.7.0
+  intl: ^0.20.1
 
 dev_dependencies:
   mockito: ^5.4.5
@@ -32,8 +35,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # fonts:
