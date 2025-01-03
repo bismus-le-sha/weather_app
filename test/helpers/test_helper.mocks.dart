@@ -4,20 +4,32 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i6;
-import 'dart:convert' as _i12;
-import 'dart:typed_data' as _i14;
+import 'dart:convert' as _i15;
+import 'dart:typed_data' as _i17;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:http/http.dart' as _i5;
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart'
+    as _i18;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i13;
+import 'package:mockito/src/dummies.dart' as _i16;
+import 'package:shared_preferences/shared_preferences.dart' as _i13;
 import 'package:weather_app/core/error/failures.dart' as _i7;
-import 'package:weather_app/data/data_sources/remote_data_source.dart' as _i9;
-import 'package:weather_app/data/models/weather_model.dart' as _i3;
-import 'package:weather_app/domain/entities/weather.dart' as _i8;
-import 'package:weather_app/domain/repositories/weather_repository.dart' as _i4;
-import 'package:weather_app/domain/usecases/get_current_weather.dart' as _i10;
-import 'package:weather_app/domain/usecases/params.dart' as _i11;
+import 'package:weather_app/core/util/network/network_ifo.dart' as _i14;
+import 'package:weather_app/features/weather/data/data_sources/local_data_source.dart'
+    as _i10;
+import 'package:weather_app/features/weather/data/data_sources/remote_data_source.dart'
+    as _i9;
+import 'package:weather_app/features/weather/data/models/weather_model.dart'
+    as _i3;
+import 'package:weather_app/features/weather/domain/entities/weather.dart'
+    as _i8;
+import 'package:weather_app/features/weather/domain/repositories/weather_repository.dart'
+    as _i4;
+import 'package:weather_app/features/weather/domain/usecases/get_current_weather.dart'
+    as _i11;
+import 'package:weather_app/features/weather/domain/usecases/params.dart'
+    as _i12;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -57,6 +69,11 @@ class _FakeResponse_3 extends _i1.SmartFake implements _i5.Response {
 class _FakeStreamedResponse_4 extends _i1.SmartFake
     implements _i5.StreamedResponse {
   _FakeStreamedResponse_4(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeDuration_5 extends _i1.SmartFake implements Duration {
+  _FakeDuration_5(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -108,10 +125,42 @@ class MockWeatherRemoteDataSource extends _i1.Mock
           as _i6.Future<_i3.WeatherModel>);
 }
 
+/// A class which mocks [WeatherLocalDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockWeatherLocalDataSource extends _i1.Mock
+    implements _i10.WeatherLocalDataSource {
+  MockWeatherLocalDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i6.Future<void> cacheWeather(String? cityName, _i3.WeatherModel? weather) =>
+      (super.noSuchMethod(
+            Invocation.method(#cacheWeather, [cityName, weather]),
+            returnValue: _i6.Future<void>.value(),
+            returnValueForMissingStub: _i6.Future<void>.value(),
+          )
+          as _i6.Future<void>);
+
+  @override
+  _i6.Future<_i3.WeatherModel> getLastWeather(String? cityName) =>
+      (super.noSuchMethod(
+            Invocation.method(#getLastWeather, [cityName]),
+            returnValue: _i6.Future<_i3.WeatherModel>.value(
+              _FakeWeatherModel_1(
+                this,
+                Invocation.method(#getLastWeather, [cityName]),
+              ),
+            ),
+          )
+          as _i6.Future<_i3.WeatherModel>);
+}
+
 /// A class which mocks [GetCurrentWeather].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetCurrentWeather extends _i1.Mock implements _i10.GetCurrentWeather {
+class MockGetCurrentWeather extends _i1.Mock implements _i11.GetCurrentWeather {
   MockGetCurrentWeather() {
     _i1.throwOnMissingStub(this);
   }
@@ -129,7 +178,7 @@ class MockGetCurrentWeather extends _i1.Mock implements _i10.GetCurrentWeather {
 
   @override
   _i6.Future<_i2.Either<_i7.Failure, _i8.WeatherEntity>> call(
-    _i11.WeatherParams? params,
+    _i12.WeatherParams? params,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#call, [params]),
@@ -144,11 +193,151 @@ class MockGetCurrentWeather extends _i1.Mock implements _i10.GetCurrentWeather {
           as _i6.Future<_i2.Either<_i7.Failure, _i8.WeatherEntity>>);
 }
 
+/// A class which mocks [SharedPreferences].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSharedPreferences extends _i1.Mock implements _i13.SharedPreferences {
+  MockSharedPreferences() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  Set<String> getKeys() =>
+      (super.noSuchMethod(
+            Invocation.method(#getKeys, []),
+            returnValue: <String>{},
+          )
+          as Set<String>);
+
+  @override
+  Object? get(String? key) =>
+      (super.noSuchMethod(Invocation.method(#get, [key])) as Object?);
+
+  @override
+  bool? getBool(String? key) =>
+      (super.noSuchMethod(Invocation.method(#getBool, [key])) as bool?);
+
+  @override
+  int? getInt(String? key) =>
+      (super.noSuchMethod(Invocation.method(#getInt, [key])) as int?);
+
+  @override
+  double? getDouble(String? key) =>
+      (super.noSuchMethod(Invocation.method(#getDouble, [key])) as double?);
+
+  @override
+  String? getString(String? key) =>
+      (super.noSuchMethod(Invocation.method(#getString, [key])) as String?);
+
+  @override
+  bool containsKey(String? key) =>
+      (super.noSuchMethod(
+            Invocation.method(#containsKey, [key]),
+            returnValue: false,
+          )
+          as bool);
+
+  @override
+  List<String>? getStringList(String? key) =>
+      (super.noSuchMethod(Invocation.method(#getStringList, [key]))
+          as List<String>?);
+
+  @override
+  _i6.Future<bool> setBool(String? key, bool? value) =>
+      (super.noSuchMethod(
+            Invocation.method(#setBool, [key, value]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
+
+  @override
+  _i6.Future<bool> setInt(String? key, int? value) =>
+      (super.noSuchMethod(
+            Invocation.method(#setInt, [key, value]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
+
+  @override
+  _i6.Future<bool> setDouble(String? key, double? value) =>
+      (super.noSuchMethod(
+            Invocation.method(#setDouble, [key, value]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
+
+  @override
+  _i6.Future<bool> setString(String? key, String? value) =>
+      (super.noSuchMethod(
+            Invocation.method(#setString, [key, value]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
+
+  @override
+  _i6.Future<bool> setStringList(String? key, List<String>? value) =>
+      (super.noSuchMethod(
+            Invocation.method(#setStringList, [key, value]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
+
+  @override
+  _i6.Future<bool> remove(String? key) =>
+      (super.noSuchMethod(
+            Invocation.method(#remove, [key]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
+
+  @override
+  _i6.Future<bool> commit() =>
+      (super.noSuchMethod(
+            Invocation.method(#commit, []),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
+
+  @override
+  _i6.Future<bool> clear() =>
+      (super.noSuchMethod(
+            Invocation.method(#clear, []),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
+
+  @override
+  _i6.Future<void> reload() =>
+      (super.noSuchMethod(
+            Invocation.method(#reload, []),
+            returnValue: _i6.Future<void>.value(),
+            returnValueForMissingStub: _i6.Future<void>.value(),
+          )
+          as _i6.Future<void>);
+}
+
+/// A class which mocks [NetworkInfo].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockNetworkInfo extends _i1.Mock implements _i14.NetworkInfo {
+  MockNetworkInfo() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i6.Future<bool> get isConnected =>
+      (super.noSuchMethod(
+            Invocation.getter(#isConnected),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
+}
+
 /// A class which mocks [Client].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockHttpClient extends _i1.Mock implements _i5.Client {
-  MockHttpClient() {
+class MockClient extends _i1.Mock implements _i5.Client {
+  MockClient() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -183,7 +372,7 @@ class MockHttpClient extends _i1.Mock implements _i5.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i12.Encoding? encoding,
+    _i15.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
@@ -209,7 +398,7 @@ class MockHttpClient extends _i1.Mock implements _i5.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i12.Encoding? encoding,
+    _i15.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
@@ -235,7 +424,7 @@ class MockHttpClient extends _i1.Mock implements _i5.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i12.Encoding? encoding,
+    _i15.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
@@ -261,7 +450,7 @@ class MockHttpClient extends _i1.Mock implements _i5.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i12.Encoding? encoding,
+    _i15.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
@@ -287,7 +476,7 @@ class MockHttpClient extends _i1.Mock implements _i5.Client {
       (super.noSuchMethod(
             Invocation.method(#read, [url], {#headers: headers}),
             returnValue: _i6.Future<String>.value(
-              _i13.dummyValue<String>(
+              _i16.dummyValue<String>(
                 this,
                 Invocation.method(#read, [url], {#headers: headers}),
               ),
@@ -296,15 +485,15 @@ class MockHttpClient extends _i1.Mock implements _i5.Client {
           as _i6.Future<String>);
 
   @override
-  _i6.Future<_i14.Uint8List> readBytes(
+  _i6.Future<_i17.Uint8List> readBytes(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#readBytes, [url], {#headers: headers}),
-            returnValue: _i6.Future<_i14.Uint8List>.value(_i14.Uint8List(0)),
+            returnValue: _i6.Future<_i17.Uint8List>.value(_i17.Uint8List(0)),
           )
-          as _i6.Future<_i14.Uint8List>);
+          as _i6.Future<_i17.Uint8List>);
 
   @override
   _i6.Future<_i5.StreamedResponse> send(_i5.BaseRequest? request) =>
@@ -322,6 +511,67 @@ class MockHttpClient extends _i1.Mock implements _i5.Client {
   @override
   void close() => super.noSuchMethod(
     Invocation.method(#close, []),
+    returnValueForMissingStub: null,
+  );
+}
+
+/// A class which mocks [InternetConnection].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockInternetConnection extends _i1.Mock
+    implements _i18.InternetConnection {
+  MockInternetConnection() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  bool get enableStrictCheck =>
+      (super.noSuchMethod(
+            Invocation.getter(#enableStrictCheck),
+            returnValue: false,
+          )
+          as bool);
+
+  @override
+  Duration get checkInterval =>
+      (super.noSuchMethod(
+            Invocation.getter(#checkInterval),
+            returnValue: _FakeDuration_5(
+              this,
+              Invocation.getter(#checkInterval),
+            ),
+          )
+          as Duration);
+
+  @override
+  _i6.Future<bool> get hasInternetAccess =>
+      (super.noSuchMethod(
+            Invocation.getter(#hasInternetAccess),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
+
+  @override
+  _i6.Future<_i18.InternetStatus> get internetStatus =>
+      (super.noSuchMethod(
+            Invocation.getter(#internetStatus),
+            returnValue: _i6.Future<_i18.InternetStatus>.value(
+              _i18.InternetStatus.connected,
+            ),
+          )
+          as _i6.Future<_i18.InternetStatus>);
+
+  @override
+  _i6.Stream<_i18.InternetStatus> get onStatusChange =>
+      (super.noSuchMethod(
+            Invocation.getter(#onStatusChange),
+            returnValue: _i6.Stream<_i18.InternetStatus>.empty(),
+          )
+          as _i6.Stream<_i18.InternetStatus>);
+
+  @override
+  void setIntervalAndResetTimer(Duration? duration) => super.noSuchMethod(
+    Invocation.method(#setIntervalAndResetTimer, [duration]),
     returnValueForMissingStub: null,
   );
 }

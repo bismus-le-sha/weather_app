@@ -1,13 +1,13 @@
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weather_app/data/data_sources/local_data_source.dart';
+import 'package:weather_app/features/weather/data/data_sources/local_data_source.dart';
 import 'core/util/network/network_ifo.dart';
-import 'data/data_sources/remote_data_source.dart';
-import 'data/repositories/weather_repository_impl.dart';
-import 'domain/repositories/weather_repository.dart';
-import 'domain/usecases/get_current_weather.dart';
-import 'presentation/bloc/weather_bloc.dart';
+import 'features/weather/data/data_sources/remote_data_source.dart';
+import 'features/weather/data/repositories/weather_repository_impl.dart';
+import 'features/weather/domain/repositories/weather_repository.dart';
+import 'features/weather/domain/usecases/get_current_weather.dart';
+import 'features/weather/presentation/bloc/weather_bloc.dart';
 import 'package:http/http.dart' as http;
 
 final sl = GetIt.instance;

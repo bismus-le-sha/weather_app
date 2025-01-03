@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'presentation/bloc/weather_bloc.dart';
-import 'presentation/pages/weather_page.dart';
+import 'features/weather/presentation/bloc/weather_bloc.dart';
+import 'features/weather/presentation/pages/weather_page.dart';
 import 'injection_container.dart' as di;
 
 class WeatherApp extends StatelessWidget {

@@ -1,3 +1,5 @@
+import 'package:weather_app/core/constants/messages.dart';
+
 enum FailureType { serverError, connectionError, cacheError }
 
 class Failure {
@@ -17,9 +19,9 @@ class Failure {
   int get hashCode => type.hashCode;
 
   static const Map<FailureType, String> _defaultMessages = {
-    FailureType.serverError: "Server error occurred",
-    FailureType.connectionError: "Failed to connect to the network",
-    FailureType.cacheError: "Cache error occurred",
+    FailureType.serverError: SERVER_FAILURE_MESSAGE,
+    FailureType.connectionError: CONNECTION_FAILURE_MESSAGE,
+    FailureType.cacheError: CACHE_FAILURE_MESSAGE,
   };
 
   factory Failure.fromType(FailureType type, {String? customMessage}) {
