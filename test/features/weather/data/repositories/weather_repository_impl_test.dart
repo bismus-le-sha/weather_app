@@ -31,7 +31,7 @@ void main() {
   const cityName = 'London';
   final testWeatherModel = WeatherModel(
     cityName: 'London',
-    localtime: DateTime.parse('2021-02-21 08:42:00'),
+    lastUpdated: DateTime.parse('2021-02-21 08:42:00'),
     temperature: 11.0,
     feelsLike: 9.5,
     conditionCode: 1003,

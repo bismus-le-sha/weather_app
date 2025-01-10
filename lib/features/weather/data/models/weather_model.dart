@@ -5,7 +5,7 @@ import '../../domain/entities/weather.dart';
 class WeatherModel extends WeatherEntity {
   const WeatherModel(
       {required super.cityName,
-      required super.localtime,
+      required super.lastUpdated,
       required super.temperature,
       required super.feelsLike,
       required super.conditionCode,
@@ -17,7 +17,7 @@ class WeatherModel extends WeatherEntity {
     final dateFormat = DateFormat('yyyy-MM-dd H:mm');
     return WeatherModel(
       cityName: json['location']['name'],
-      localtime: dateFormat.parse(json['location']['localtime']),
+      lastUpdated: dateFormat.parse(json['current']['last_updated']),
       temperature: json['current']['temp_c'].toDouble(),
       feelsLike: json['current']['feelslike_c'].toDouble(),
       conditionCode: json['current']['condition']['code'].toInt(),
@@ -32,9 +32,9 @@ class WeatherModel extends WeatherEntity {
     return {
       'location': {
         'name': cityName,
-        'localtime': dateFormat.format(localtime),
       },
       'current': {
+        'last_updated': dateFormat.format(lastUpdated),
         'temp_c': temperature,
         'feelslike_c': feelsLike,
         'condition': {

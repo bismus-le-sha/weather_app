@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:mockito/mockito.dart';
 import 'package:weather_app/features/weather/domain/entities/weather.dart';
 import 'package:weather_app/features/weather/domain/usecases/get_current_weather.dart';
-import 'package:weather_app/features/weather/domain/usecases/params.dart';
+import 'package:weather_app/features/weather/domain/usecases/params/weater_params.dart';
 
 import '../../../../helpers/test_helper.mocks.dart';
 
@@ -20,7 +20,7 @@ void main() {
   final dateFormat = DateFormat('yyyy-MM-dd H:mm');
   final testWeatherEntity = WeatherEntity(
     cityName: 'London',
-    localtime: dateFormat.parse('2021-02-21 8:42'),
+    lastUpdated: dateFormat.parse('2021-02-21 8:42'),
     temperature: 11.0,
     feelsLike: 9.5,
     conditionCode: 1003,

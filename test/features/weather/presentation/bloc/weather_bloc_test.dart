@@ -7,7 +7,7 @@ import 'package:weather_app/core/constants/messages.dart';
 import 'package:weather_app/core/error/failures.dart';
 
 import 'package:weather_app/features/weather/domain/entities/weather.dart';
-import 'package:weather_app/features/weather/domain/usecases/params.dart';
+import 'package:weather_app/features/weather/domain/usecases/params/weater_params.dart';
 import 'package:weather_app/features/weather/presentation/bloc/weather_bloc.dart';
 import 'package:weather_app/features/weather/presentation/bloc/weather_event.dart';
 import 'package:weather_app/features/weather/presentation/bloc/weather_state.dart';
@@ -17,16 +17,18 @@ import '../../../../helpers/test_helper.mocks.dart';
 void main() {
   late WeatherBloc weatherBloc;
   late MockGetCurrentWeather mockGetCurrentWeather;
+  late MockPeriodicWeatherUpdater mockPeriodicWeatherUpdater;
 
   setUp(() {
     mockGetCurrentWeather = MockGetCurrentWeather();
-    weatherBloc = WeatherBloc(mockGetCurrentWeather);
+    mockPeriodicWeatherUpdater = MockPeriodicWeatherUpdater();
+    weatherBloc =
+        WeatherBloc(mockGetCurrentWeather, mockPeriodicWeatherUpdater);
   });
 
-  const cityName = 'London';
   final testWeather = WeatherEntity(
     cityName: 'London',
-    localtime: DateTime.parse('2021-02-21 08:42:00'),
+    lastUpdated: DateTime.parse('2021-02-21 08:42:00'),
     temperature: 11.0,
     feelsLike: 9.5,
     conditionCode: 1003,
@@ -47,14 +49,15 @@ void main() {
             .thenAnswer((_) async => Right(testWeather));
         return weatherBloc;
       },
-      act: (bloc) => bloc.add(WeatherLoad(cityName)),
+      act: (bloc) => bloc.add(WeatherLoad(testWeather.cityName)),
       wait: const Duration(milliseconds: 500),
       expect: () => [
         WeatherLoading(),
         WeatherLoaded(testWeather),
       ],
       verify: (_) {
-        verify(mockGetCurrentWeather(WeatherParams(cityName: cityName)));
+        verify(mockGetCurrentWeather(
+            WeatherParams(cityName: testWeather.cityName)));
       },
     );
 
@@ -65,14 +68,64 @@ void main() {
             (_) async => Left(Failure.fromType(FailureType.serverError)));
         return weatherBloc;
       },
-      act: (bloc) => bloc.add(WeatherLoad(cityName)),
+      act: (bloc) => bloc.add(WeatherLoad(testWeather.cityName)),
       wait: const Duration(milliseconds: 500),
       expect: () => [
         WeatherLoading(),
         WeatherLoadFailure(SERVER_FAILURE_MESSAGE),
       ],
       verify: (_) {
-        verify(mockGetCurrentWeather(WeatherParams(cityName: cityName)));
+        verify(mockGetCurrentWeather(
+            WeatherParams(cityName: testWeather.cityName)));
+      },
+    );
+
+    blocTest<WeatherBloc, WeatherState>(
+      'starts auto-update and emits WeatherAutoUpdating when StartAutoUpdate is added',
+      build: () {
+        when(mockPeriodicWeatherUpdater.start(any, any))
+            .thenAnswer((_) => Stream.value(Right(testWeather)));
+        return weatherBloc;
+      },
+      act: (bloc) => bloc.add(StartAutoUpdate(testWeather.cityName)),
+      expect: () => [
+        WeatherAutoUpdating(testWeather),
+      ],
+      verify: (_) {
+        verify(mockPeriodicWeatherUpdater.start(
+            testWeather.cityName, Duration(hours: 1)));
+      },
+    );
+
+    blocTest<WeatherBloc, WeatherState>(
+      'emits WeatherLoadFailure when auto-update fails',
+      build: () {
+        when(mockPeriodicWeatherUpdater.start(any, any)).thenAnswer((_) =>
+            Stream.value(Left(Failure.fromType(FailureType.serverError))));
+        return weatherBloc;
+      },
+      act: (bloc) => bloc.add(StartAutoUpdate(testWeather.cityName)),
+      expect: () => [
+        WeatherLoadFailure(SERVER_FAILURE_MESSAGE),
+      ],
+      verify: (_) {
+        verify(mockPeriodicWeatherUpdater.start(
+            testWeather.cityName, Duration(hours: 1)));
+      },
+    );
+
+    blocTest<WeatherBloc, WeatherState>(
+      'stops auto-update and emits WeatherLoaded when StopAutoUpdate is added',
+      build: () {
+        when(mockPeriodicWeatherUpdater.stop()).thenAnswer((_) async {});
+        return weatherBloc;
+      },
+      act: (bloc) => bloc.add(StopAutoUpdate()),
+      expect: () => [
+        WeatherInitial(),
+      ],
+      verify: (_) {
+        verify(mockPeriodicWeatherUpdater.stop());
       },
     );
   });

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:weather_app/features/weather/domain/usecases/params.dart';
+import 'package:weather_app/features/weather/domain/usecases/params/weater_params.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';

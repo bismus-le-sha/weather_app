@@ -29,8 +29,10 @@ dev_dependencies:
   bloc_test: ^9.1.7
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^5.0.0
+  talker_flutter: ^4.6.0
+  talker_bloc_logger: ^4.6.0
+  talker_http_logger: ^0.1.0-dev.26
 
 flutter:
   uses-material-design: true
