@@ -4,18 +4,20 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i6;
-import 'dart:convert' as _i15;
-import 'dart:typed_data' as _i17;
+import 'dart:convert' as _i16;
+import 'dart:typed_data' as _i18;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:http/http.dart' as _i5;
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart'
-    as _i18;
+    as _i19;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i16;
-import 'package:shared_preferences/shared_preferences.dart' as _i13;
+import 'package:mockito/src/dummies.dart' as _i17;
+import 'package:shared_preferences/shared_preferences.dart' as _i14;
 import 'package:weather_app/core/error/failures.dart' as _i7;
-import 'package:weather_app/core/util/network/network_ifo.dart' as _i14;
+import 'package:weather_app/core/service/periodic_weather_handler/periodic_weather_handler.dart'
+    as _i13;
+import 'package:weather_app/core/util/network/network_info.dart' as _i15;
 import 'package:weather_app/features/weather/data/data_sources/local_data_source.dart'
     as _i10;
 import 'package:weather_app/features/weather/data/data_sources/remote_data_source.dart'
@@ -28,7 +30,7 @@ import 'package:weather_app/features/weather/domain/repositories/weather_reposit
     as _i4;
 import 'package:weather_app/features/weather/domain/usecases/get_current_weather.dart'
     as _i11;
-import 'package:weather_app/features/weather/domain/usecases/params.dart'
+import 'package:weather_app/features/weather/domain/usecases/params/weater_params.dart'
     as _i12;
 
 // ignore_for_file: type=lint
@@ -193,10 +195,38 @@ class MockGetCurrentWeather extends _i1.Mock implements _i11.GetCurrentWeather {
           as _i6.Future<_i2.Either<_i7.Failure, _i8.WeatherEntity>>);
 }
 
+/// A class which mocks [PeriodicWeatherUpdater].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockPeriodicWeatherUpdater extends _i1.Mock
+    implements _i13.PeriodicWeatherUpdater {
+  MockPeriodicWeatherUpdater() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i6.Stream<_i2.Either<_i7.Failure, _i8.WeatherEntity>> start(
+    String? cityName,
+    Duration? interval,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#start, [cityName, interval]),
+            returnValue:
+                _i6.Stream<_i2.Either<_i7.Failure, _i8.WeatherEntity>>.empty(),
+          )
+          as _i6.Stream<_i2.Either<_i7.Failure, _i8.WeatherEntity>>);
+
+  @override
+  void stop() => super.noSuchMethod(
+    Invocation.method(#stop, []),
+    returnValueForMissingStub: null,
+  );
+}
+
 /// A class which mocks [SharedPreferences].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSharedPreferences extends _i1.Mock implements _i13.SharedPreferences {
+class MockSharedPreferences extends _i1.Mock implements _i14.SharedPreferences {
   MockSharedPreferences() {
     _i1.throwOnMissingStub(this);
   }
@@ -319,7 +349,7 @@ class MockSharedPreferences extends _i1.Mock implements _i13.SharedPreferences {
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i14.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i15.NetworkInfo {
   MockNetworkInfo() {
     _i1.throwOnMissingStub(this);
   }
@@ -372,7 +402,7 @@ class MockClient extends _i1.Mock implements _i5.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i15.Encoding? encoding,
+    _i16.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
@@ -398,7 +428,7 @@ class MockClient extends _i1.Mock implements _i5.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i15.Encoding? encoding,
+    _i16.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
@@ -424,7 +454,7 @@ class MockClient extends _i1.Mock implements _i5.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i15.Encoding? encoding,
+    _i16.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
@@ -450,7 +480,7 @@ class MockClient extends _i1.Mock implements _i5.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i15.Encoding? encoding,
+    _i16.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
@@ -476,7 +506,7 @@ class MockClient extends _i1.Mock implements _i5.Client {
       (super.noSuchMethod(
             Invocation.method(#read, [url], {#headers: headers}),
             returnValue: _i6.Future<String>.value(
-              _i16.dummyValue<String>(
+              _i17.dummyValue<String>(
                 this,
                 Invocation.method(#read, [url], {#headers: headers}),
               ),
@@ -485,15 +515,15 @@ class MockClient extends _i1.Mock implements _i5.Client {
           as _i6.Future<String>);
 
   @override
-  _i6.Future<_i17.Uint8List> readBytes(
+  _i6.Future<_i18.Uint8List> readBytes(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#readBytes, [url], {#headers: headers}),
-            returnValue: _i6.Future<_i17.Uint8List>.value(_i17.Uint8List(0)),
+            returnValue: _i6.Future<_i18.Uint8List>.value(_i18.Uint8List(0)),
           )
-          as _i6.Future<_i17.Uint8List>);
+          as _i6.Future<_i18.Uint8List>);
 
   @override
   _i6.Future<_i5.StreamedResponse> send(_i5.BaseRequest? request) =>
@@ -519,7 +549,7 @@ class MockClient extends _i1.Mock implements _i5.Client {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockInternetConnection extends _i1.Mock
-    implements _i18.InternetConnection {
+    implements _i19.InternetConnection {
   MockInternetConnection() {
     _i1.throwOnMissingStub(this);
   }
@@ -552,22 +582,22 @@ class MockInternetConnection extends _i1.Mock
           as _i6.Future<bool>);
 
   @override
-  _i6.Future<_i18.InternetStatus> get internetStatus =>
+  _i6.Future<_i19.InternetStatus> get internetStatus =>
       (super.noSuchMethod(
             Invocation.getter(#internetStatus),
-            returnValue: _i6.Future<_i18.InternetStatus>.value(
-              _i18.InternetStatus.connected,
+            returnValue: _i6.Future<_i19.InternetStatus>.value(
+              _i19.InternetStatus.connected,
             ),
           )
-          as _i6.Future<_i18.InternetStatus>);
+          as _i6.Future<_i19.InternetStatus>);
 
   @override
-  _i6.Stream<_i18.InternetStatus> get onStatusChange =>
+  _i6.Stream<_i19.InternetStatus> get onStatusChange =>
       (super.noSuchMethod(
             Invocation.getter(#onStatusChange),
-            returnValue: _i6.Stream<_i18.InternetStatus>.empty(),
+            returnValue: _i6.Stream<_i19.InternetStatus>.empty(),
           )
-          as _i6.Stream<_i18.InternetStatus>);
+          as _i6.Stream<_i19.InternetStatus>);
 
   @override
   void setIntervalAndResetTimer(Duration? duration) => super.noSuchMethod(

@@ -4,6 +4,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:weather_app/features/weather/domain/entities/weather.dart';
 import 'package:weather_app/features/weather/presentation/bloc/weather_bloc.dart';
 import 'package:weather_app/features/weather/presentation/bloc/weather_event.dart';
@@ -30,9 +31,9 @@ void main() {
     );
   }
 
-  const testWeather = WeatherEntity(
+  final testWeather = WeatherEntity(
     cityName: 'London',
-    localtime: '2021-02-21 8:42',
+    lastUpdated: DateTime.parse('2021-02-21 08:42:00'),
     temperature: 11.0,
     feelsLike: 9.5,
     conditionCode: 1003,

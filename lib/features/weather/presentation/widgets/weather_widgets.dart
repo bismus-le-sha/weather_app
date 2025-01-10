@@ -62,7 +62,7 @@ class WeatherWidget extends StatelessWidget {
           ),
           Center(
             child: Text(
-              DateFormat('EEEE dd •').add_jm().format(weather.localtime),
+              'Последнее обновление: ${DateFormat().add_jm().format(weather.lastUpdated)}',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -72,7 +72,7 @@ class WeatherWidget extends StatelessWidget {
           ),
           Center(
             child: Text(
-              '${weather.windSpeed} m/s',
+              '${weather.windSpeed} km/h',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,

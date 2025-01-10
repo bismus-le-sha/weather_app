@@ -23,7 +23,7 @@ void main() {
     final dateFormat = DateFormat('yyyy-MM-dd H:mm');
     testWeatherModel = WeatherModel(
       cityName: 'London',
-      localtime: dateFormat.parse('2021-02-21 8:42'),
+      lastUpdated: dateFormat.parse('2021-02-21 8:42'),
       temperature: 11.0,
       feelsLike: 9.5,
       conditionCode: 1003,

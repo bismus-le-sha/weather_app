@@ -1,7 +1,8 @@
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:mockito/annotations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weather_app/core/util/network/network_ifo.dart';
+import 'package:weather_app/core/service/periodic_weather_handler/periodic_weather_handler.dart';
+import 'package:weather_app/core/util/network/network_info.dart';
 import 'package:weather_app/features/weather/data/data_sources/local_data_source.dart';
 import 'package:weather_app/features/weather/data/data_sources/remote_data_source.dart';
 import 'package:weather_app/features/weather/domain/repositories/weather_repository.dart';
@@ -16,6 +17,7 @@ import 'package:http/http.dart' as http;
     WeatherRemoteDataSource,
     WeatherLocalDataSource,
     GetCurrentWeather,
+    PeriodicWeatherUpdater,
     SharedPreferences,
     NetworkInfo,
     http.Client,

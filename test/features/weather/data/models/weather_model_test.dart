@@ -11,7 +11,7 @@ void main() {
   final dateFormat = DateFormat('yyyy-MM-dd H:mm');
   final testWeatherModel = WeatherModel(
     cityName: 'London',
-    localtime: dateFormat.parse('2021-02-21 8:42'),
+    lastUpdated: dateFormat.parse('2021-02-21 8:30'),
     temperature: 11.0,
     feelsLike: 9.5,
     conditionCode: 1003,
@@ -44,11 +44,9 @@ void main() {
 
     // Assert
     final expectedJsonMap = {
-      'location': {
-        'name': 'London',
-        'localtime': '2021-02-21 8:42',
-      },
+      'location': {'name': 'London'},
       'current': {
+        'last_updated': '2021-02-21 8:30',
         'temp_c': 11.0,
         'feelslike_c': 9.5,
         'condition': {

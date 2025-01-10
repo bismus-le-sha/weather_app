@@ -22,8 +22,9 @@ void main() {
   group('getCurrentWeather', () {
     const cityName = 'London';
     final testWeatherJson = {
-      "location": {"name": "London", "localtime": "2021-02-21 8:42"},
+      "location": {"name": "London"},
       "current": {
+        "last_updated": "2021-02-21 8:42",
         "temp_c": 11.0,
         "feelslike_c": 9.5,
         "condition": {

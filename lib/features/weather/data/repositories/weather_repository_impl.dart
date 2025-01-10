@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/exceptions.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/util/network/network_ifo.dart';
+import '../../../../core/util/network/network_info.dart';
 import '../../domain/entities/weather.dart';
 import '../../domain/repositories/weather_repository.dart';
 import '../data_sources/local_data_source.dart';
