@@ -27,6 +27,7 @@ void main() {
         "last_updated": "2021-02-21 8:42",
         "temp_c": 11.0,
         "feelslike_c": 9.5,
+        "is_day": 1,
         "condition": {
           "code": 1003,
           "text": "Partly cloudy",

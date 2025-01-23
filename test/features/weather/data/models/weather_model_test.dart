@@ -14,6 +14,7 @@ void main() {
     lastUpdated: dateFormat.parse('2021-02-21 8:30'),
     temperature: 11.0,
     feelsLike: 9.5,
+    isDay: 1,
     conditionCode: 1003,
     conditionText: 'Partly cloudy',
     conditionIconUrl: 'https://cdn.weatherapi.com/weather/64x64/day/116.png',
@@ -49,6 +50,7 @@ void main() {
         'last_updated': '2021-02-21 8:30',
         'temp_c': 11.0,
         'feelslike_c': 9.5,
+        'is_day': 1,
         'condition': {
           'code': 1003,
           'text': 'Partly cloudy',

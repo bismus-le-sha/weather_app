@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../domain/entities/weather.dart';
+import 'weather_icon.dart';
 
 class WeatherWidget extends StatelessWidget {
   final WeatherEntity weather;
@@ -25,14 +26,11 @@ class WeatherWidget extends StatelessWidget {
             ),
           ),
           Center(
-            child: Image.network(
-              weather.conditionIconUrl,
-              scale: 0.3,
-            ),
+            child: getWeatherIcon(weather.conditionCode, weather.isDay),
           ),
           Center(
             child: Text(
-              '${weather.temperature}°C',
+              '${weather.temperature.round()}°C',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 55,
@@ -42,7 +40,7 @@ class WeatherWidget extends StatelessWidget {
           ),
           Center(
             child: Text(
-              'Ощущается как ${weather.feelsLike}°C',
+              'Ощущается как ${weather.feelsLike.round()}°C',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,

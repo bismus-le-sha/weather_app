@@ -21,7 +21,7 @@ Future<void> init() async {
 
   // Bloc
 
-  sl.registerFactory<WeatherBloc>(() => WeatherBloc(sl(), sl()));
+  sl.registerLazySingleton(() => WeatherBloc(sl(), sl()));
 
   // Usecase
   sl.registerLazySingleton(() => GetCurrentWeather(sl()));

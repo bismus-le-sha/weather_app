@@ -36,6 +36,7 @@ void main() {
     lastUpdated: DateTime.parse('2021-02-21 08:42:00'),
     temperature: 11.0,
     feelsLike: 9.5,
+    isDay: 1,
     conditionCode: 1003,
     conditionText: 'Partly cloudy',
     conditionIconUrl: 'https://cdn.weatherapi.com/weather/64x64/day/116.png',
@@ -46,7 +47,7 @@ void main() {
     'text field should trigger state to change from empty to loading',
     (widgetTester) async {
       //arrange
-      when(() => mockWeatherBloc.state).thenReturn(WeatherInitial());
+      when(() => mockWeatherBloc.state).thenReturn(() => WeatherInitial());
 
       //act
       await widgetTester.pumpWidget(makeTestableWidget(const WeatherPage()));
@@ -62,7 +63,7 @@ void main() {
     'should show progress indicator when state is loading',
     (widgetTester) async {
       //arrange
-      when(() => mockWeatherBloc.state).thenReturn(WeatherLoading());
+      when(() => mockWeatherBloc.state).thenReturn(() => WeatherLoading());
 
       //act
       await widgetTester.pumpWidget(makeTestableWidget(const WeatherPage()));
@@ -77,7 +78,7 @@ void main() {
     (widgetTester) async {
       //arrange
       when(() => mockWeatherBloc.state)
-          .thenReturn(const WeatherLoaded(testWeather));
+          .thenReturn(() => WeatherLoaded(testWeather));
 
       //act
       await widgetTester.pumpWidget(makeTestableWidget(const WeatherPage()));

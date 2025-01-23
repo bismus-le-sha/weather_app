@@ -6,6 +6,7 @@ class WeatherEntity extends Equatable {
     required this.lastUpdated,
     required this.temperature,
     required this.feelsLike,
+    required this.isDay,
     required this.conditionCode,
     required this.conditionText,
     required this.conditionIconUrl,
@@ -16,6 +17,7 @@ class WeatherEntity extends Equatable {
   final DateTime lastUpdated;
   final double temperature;
   final double feelsLike;
+  final int isDay;
   final int conditionCode;
   final String conditionText;
   final String conditionIconUrl;
@@ -27,6 +29,7 @@ class WeatherEntity extends Equatable {
         lastUpdated,
         temperature,
         feelsLike,
+        isDay,
         conditionCode,
         conditionText,
         conditionIconUrl,

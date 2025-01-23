@@ -24,7 +24,6 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       transformer: debounce(const Duration(milliseconds: 500)),
     );
     on<StartAutoUpdate>(_onStartAutoUpdate);
-    on<StopAutoUpdate>(_onStopAutoUpdate);
   }
 
   Future<void> _onCityChanged(
@@ -56,17 +55,6 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         return WeatherLoadFailure('Error during auto-update');
       },
     );
-  }
-
-  void _onStopAutoUpdate(StopAutoUpdate event, Emitter<WeatherState> emit) {
-    periodicWeatherUpdater.stop();
-    _isAutoUpdating = false;
-
-    if (state is WeatherAutoUpdating) {
-      emit(WeatherLoaded((state as WeatherAutoUpdating).weather));
-    } else {
-      emit(WeatherInitial());
-    }
   }
 
   static EventTransformer<T> debounce<T>(Duration duration) {

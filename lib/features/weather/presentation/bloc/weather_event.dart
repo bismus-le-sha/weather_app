@@ -20,6 +20,9 @@ class StartAutoUpdate extends WeatherEvent {
   final String cityName;
 
   const StartAutoUpdate(this.cityName);
+
+  @override
+  List<Object?> get props => [cityName];
 }
 
 class StopAutoUpdate extends WeatherEvent {}

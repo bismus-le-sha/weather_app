@@ -22,12 +22,6 @@ class WeatherLoaded extends WeatherState {
   List<Object?> get props => [weather];
 }
 
-class WeatherAutoUpdating extends WeatherState {
-  final WeatherEntity weather;
-
-  const WeatherAutoUpdating(this.weather);
-}
-
 class WeatherLoadFailure extends WeatherState {
   final String message;
 

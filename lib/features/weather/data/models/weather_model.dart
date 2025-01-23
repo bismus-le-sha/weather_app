@@ -8,6 +8,7 @@ class WeatherModel extends WeatherEntity {
       required super.lastUpdated,
       required super.temperature,
       required super.feelsLike,
+      required super.isDay,
       required super.conditionCode,
       required super.conditionText,
       required super.conditionIconUrl,
@@ -20,6 +21,7 @@ class WeatherModel extends WeatherEntity {
       lastUpdated: dateFormat.parse(json['current']['last_updated']),
       temperature: json['current']['temp_c'].toDouble(),
       feelsLike: json['current']['feelslike_c'].toDouble(),
+      isDay: json['current']['is_day'].toInt(),
       conditionCode: json['current']['condition']['code'].toInt(),
       conditionText: json['current']['condition']['text'],
       conditionIconUrl: 'https:${json['current']['condition']['icon']}',
@@ -37,6 +39,7 @@ class WeatherModel extends WeatherEntity {
         'last_updated': dateFormat.format(lastUpdated),
         'temp_c': temperature,
         'feelslike_c': feelsLike,
+        'is_day': isDay,
         'condition': {
           'code': conditionCode,
           'text': conditionText,

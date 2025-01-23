@@ -8,7 +8,7 @@ class WeatherDisplay extends StatelessWidget {
   final WeatherEntity weather;
 
   const WeatherDisplay({super.key, required this.weather});
-
+//TODO: backgroung style for day and night
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

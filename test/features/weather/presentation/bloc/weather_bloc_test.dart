@@ -31,6 +31,7 @@ void main() {
     lastUpdated: DateTime.parse('2021-02-21 08:42:00'),
     temperature: 11.0,
     feelsLike: 9.5,
+    isDay: 1,
     conditionCode: 1003,
     conditionText: 'Partly cloudy',
     conditionIconUrl: 'https://cdn.weatherapi.com/weather/64x64/day/116.png',
@@ -89,7 +90,7 @@ void main() {
       },
       act: (bloc) => bloc.add(StartAutoUpdate(testWeather.cityName)),
       expect: () => [
-        WeatherAutoUpdating(testWeather),
+        WeatherLoaded(testWeather),
       ],
       verify: (_) {
         verify(mockPeriodicWeatherUpdater.start(
@@ -111,21 +112,6 @@ void main() {
       verify: (_) {
         verify(mockPeriodicWeatherUpdater.start(
             testWeather.cityName, Duration(hours: 1)));
-      },
-    );
-
-    blocTest<WeatherBloc, WeatherState>(
-      'stops auto-update and emits WeatherLoaded when StopAutoUpdate is added',
-      build: () {
-        when(mockPeriodicWeatherUpdater.stop()).thenAnswer((_) async {});
-        return weatherBloc;
-      },
-      act: (bloc) => bloc.add(StopAutoUpdate()),
-      expect: () => [
-        WeatherInitial(),
-      ],
-      verify: (_) {
-        verify(mockPeriodicWeatherUpdater.stop());
       },
     );
   });
