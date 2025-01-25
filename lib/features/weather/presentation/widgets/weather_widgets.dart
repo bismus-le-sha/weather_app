@@ -11,6 +11,8 @@ class WeatherWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final double size = screenSize.width * 0.7;
     return Padding(
       padding: const EdgeInsets.fromLTRB(40, 1.2 * kToolbarHeight, 40, 20),
       child: SizedBox(
@@ -26,7 +28,8 @@ class WeatherWidget extends StatelessWidget {
             ),
           ),
           Center(
-            child: getWeatherIcon(weather.conditionCode, weather.isDay),
+            child: getWeatherIcon(
+                getWeatherIconPath(weather.conditionCode, weather.isDay), size),
           ),
           Center(
             child: Text(
