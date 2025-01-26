@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 
 Widget getWeatherIcon(String path, double size) {
   return Stack(
+    clipBehavior: Clip.none,
     alignment: Alignment.center,
     children: [
       Positioned(
