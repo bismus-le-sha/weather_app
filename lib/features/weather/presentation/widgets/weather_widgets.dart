@@ -58,10 +58,10 @@ Widget hidenHills(
           children: [
             AnimatedPositioned(
               duration: const Duration(milliseconds: 200),
-              curve: Curves.easeInOut,
+              curve: Curves.decelerate,
               left: -screenSize.width *
                   0.4 *
-                  Curves.easeOut.transform(sheetProgress),
+                  Curves.slowMiddle.transform(sheetProgress),
               bottom: screenSize.height *
                   0.2 *
                   Curves.slowMiddle.transform(sheetProgress),
@@ -71,10 +71,10 @@ Widget hidenHills(
             ),
             AnimatedPositioned(
               duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
+              curve: Curves.decelerate,
               right: -screenSize.width *
                   0.4 *
-                  Curves.easeOut.transform(sheetProgress),
+                  Curves.slowMiddle.transform(sheetProgress),
               bottom: screenSize.height *
                   0.2 *
                   Curves.slowMiddle.transform(sheetProgress),
