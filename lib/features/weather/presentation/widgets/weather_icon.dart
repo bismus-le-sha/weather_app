@@ -108,10 +108,18 @@ List<String> getHill(int isDay) {
   return isDay == 1
       ? [
           'assets/images/hills/left-hill-day.png',
-          'assets/images/hills/right-hill-day.png'
+          'assets/images/hills/right-hill-day.png',
+          'assets/images/hills/bottom-hill-night.png'
         ]
       : [
           'assets/images/hills/left-hill-night.png',
-          'assets/images/hills/right-hill-night.png'
+          'assets/images/hills/right-hill-night.png',
+          'assets/images/hills/bottom-hill-night.png'
         ];
+}
+
+Color getHillBottomColor(int isDay) {
+  return isDay == 1
+      ? const Color.fromRGBO(42, 143, 73, 1)
+      : const Color.fromRGBO(28, 66, 39, 1);
 }

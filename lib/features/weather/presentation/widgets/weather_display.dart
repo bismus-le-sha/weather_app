@@ -19,10 +19,15 @@ class WeatherDisplay extends StatelessWidget {
             child: CustomScrollView(
           controller: controller,
           slivers: [
-            SliverToBoxAdapter(child: weatherMainInfo(weather, screenSize)),
             SliverToBoxAdapter(
-                child:
-                    hidenHills(controller, screenSize, getHill(weather.isDay))),
+                child: weatherMainInfo(weather, screenSize, controller)),
+            SliverToBoxAdapter(
+                child: hidenHills(
+              controller,
+              screenSize,
+              getHill(weather.isDay),
+              getHillBottomColor(weather.isDay),
+            )),
           ],
         )));
   }
