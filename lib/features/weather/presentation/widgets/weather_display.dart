@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/features/weather/domain/entities/weather.dart';
-import 'package:weather_app/features/weather/presentation/widgets/weather_widgets.dart';
+import 'package:weather_app/features/weather/presentation/widgets/weather_main_info.dart';
+import 'package:weather_app/features/weather/presentation/widgets/hidden_hills.dart';
 
-import 'weather_icon.dart';
+import '../../../../core/util/weather/weather_utills.dart';
 
 class WeatherDisplay extends StatelessWidget {
   final WeatherEntity weather;
@@ -11,24 +12,60 @@ class WeatherDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = ScrollController();
-    final screenSize = MediaQuery.of(context).size;
+    final ScrollController scrollController = ScrollController();
+    final Size screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
-        backgroundColor: const Color.fromRGBO(214, 210, 207, 1),
-        body: SafeArea(
-            child: CustomScrollView(
-          controller: controller,
-          slivers: [
-            SliverToBoxAdapter(
-                child: weatherMainInfo(weather, screenSize, controller)),
-            SliverToBoxAdapter(
-                child: hidenHills(
-              controller,
-              screenSize,
-              getHill(weather.isDay),
-              getHillBottomColor(weather.isDay),
-            )),
+      backgroundColor: getBacgroundColor(weather.isDay),
+      body: SafeArea(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned(
+              top: 0.2 * kToolbarHeight,
+              left: 40,
+              child: Text(
+                '📍 ${weather.cityName}',
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ),
+            // Основной контент
+            CustomScrollView(
+              controller: scrollController,
+              slivers: [
+                SliverToBoxAdapter(
+                  child: WeatherMainInfo(
+                    weather: weather,
+                    screenSize: screenSize,
+                    scrollController: scrollController,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: HiddenHills(
+                    scrollController: scrollController,
+                    screenSize: screenSize,
+                    hillPaths: getHill(weather.isDay),
+                    bottomHillColor: getHillBottomColor(weather.isDay),
+                    weather: weather,
+                  ),
+                ),
+              ],
+            ),
+            Text(
+              '${weather.temperature.round()}°C',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 55,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ],
-        )));
+        ),
+      ),
+    );
   }
 }
