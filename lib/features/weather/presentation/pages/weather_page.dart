@@ -33,7 +33,9 @@ class _WeatherPageState extends State<WeatherPage> {
           } else if (state is WeatherLoaded) {
             return WeatherDisplay(weather: state.weather);
           } else if (state is WeatherLoadFailure) {
-            return WeatherFailureDisplay();
+            return WeatherFailureDisplay(
+              failureMessage: state.message,
+            );
           } else {
             return WeatherLoadingDisplay();
           }

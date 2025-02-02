@@ -1,11 +1,16 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 class WeatherFailureDisplay extends StatelessWidget {
-  const WeatherFailureDisplay({super.key});
+  const WeatherFailureDisplay({super.key, required this.failureMessage});
+  final String failureMessage;
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Center(
+        child: Text(failureMessage),
+      ),
+    );
   }
 }
 
@@ -14,6 +19,10 @@ class WeatherLoadingDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
   }
 }
