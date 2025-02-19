@@ -6,8 +6,14 @@ import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:weather_app/features/weather/data/data_sources/local_data_source.dart';
 
+import 'config/router/router.dart';
 import 'core/service/periodic_weather_handler/periodic_weather_handler.dart';
 import 'core/util/network/network_info.dart';
+import 'features/location/data/datasources/location_data_source.dart';
+import 'features/location/data/repositories/location_repository_impl.dart';
+import 'features/location/domain/repositories/location_repository.dart';
+import 'features/location/domain/usecases/get_location.dart';
+import 'features/location/presentation/bloc/location_bloc.dart';
 import 'features/weather/data/data_sources/remote_data_source.dart';
 import 'features/weather/data/repositories/weather_repository_impl.dart';
 import 'features/weather/domain/repositories/weather_repository.dart';
@@ -40,6 +46,23 @@ Future<void> init() async {
   sl.registerLazySingleton<WeatherLocalDataSource>(
       () => WeatherLocalDataSourceImpl(sharedPreferences: sl()));
 
+  //!Features - Location
+
+  // Bloc
+  sl.registerLazySingleton(() => LocationBloc(sl()));
+
+  // Usecase
+  sl.registerLazySingleton(() => GetLocation(sl()));
+
+  // Repository
+  sl.registerLazySingleton<LocationRepository>(
+    () => LocationRepositoryImpl(locationDataSource: sl(), networkInfo: sl()),
+  );
+
+  // Datasource
+  sl.registerLazySingleton<LocationDataSource>(
+      () => LocationDataSourceImpl(client: sl()));
+
   //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   sl.registerLazySingleton<PeriodicWeatherUpdater>(
@@ -50,6 +73,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton<InternetConnection>(() => InternetConnection());
+
+  //! Config
+  sl.registerSingleton<AppRouter>(AppRouter());
 
   //!Debug Talker
   sl.registerSingleton<Talker>(TalkerFlutter.init());

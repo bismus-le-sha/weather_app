@@ -50,7 +50,9 @@ void main() {
       when(() => mockWeatherBloc.state).thenReturn(() => WeatherInitial());
 
       //act
-      await widgetTester.pumpWidget(makeTestableWidget(const WeatherPage()));
+      await widgetTester.pumpWidget(makeTestableWidget(const WeatherPage(
+        cityName: 'London',
+      )));
       var textField = find.byType(TextField);
       expect(textField, findsOneWidget);
       await widgetTester.enterText(textField, 'New York');
@@ -66,7 +68,9 @@ void main() {
       when(() => mockWeatherBloc.state).thenReturn(() => WeatherLoading());
 
       //act
-      await widgetTester.pumpWidget(makeTestableWidget(const WeatherPage()));
+      await widgetTester.pumpWidget(makeTestableWidget(const WeatherPage(
+        cityName: 'London',
+      )));
 
       //assert
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
@@ -81,7 +85,9 @@ void main() {
           .thenReturn(() => WeatherLoaded(testWeather));
 
       //act
-      await widgetTester.pumpWidget(makeTestableWidget(const WeatherPage()));
+      await widgetTester.pumpWidget(makeTestableWidget(const WeatherPage(
+        cityName: 'London',
+      )));
 
       //assert
       expect(find.byKey(const Key('weather_data')), findsOneWidget);

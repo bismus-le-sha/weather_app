@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/features/weather/presentation/widgets/weather_display.dart';
@@ -8,8 +9,10 @@ import '../bloc/weather_bloc.dart';
 import '../bloc/weather_event.dart';
 import '../bloc/weather_state.dart';
 
+@RoutePage()
 class WeatherPage extends StatefulWidget {
-  const WeatherPage({super.key});
+  final String cityName;
+  const WeatherPage({super.key, required this.cityName});
 
   @override
   State<WeatherPage> createState() => _WeatherPageState();
@@ -17,15 +20,15 @@ class WeatherPage extends StatefulWidget {
 
 class _WeatherPageState extends State<WeatherPage> {
   @override
-  void dispose() {
-    context.read<WeatherBloc>().add(StopAutoUpdate());
-    super.dispose();
+  void initState() {
+    super.initState();
+    context.read<WeatherBloc>().add(WeatherLoad(widget.cityName));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => sl<WeatherBloc>()..add(StartAutoUpdate('Омск')),
+      create: (_) => sl<WeatherBloc>()..add(StartAutoUpdate(widget.cityName)),
       child: BlocBuilder<WeatherBloc, WeatherState>(
         builder: (context, state) {
           if (state is WeatherLoading) {

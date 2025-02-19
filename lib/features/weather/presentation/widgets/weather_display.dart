@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_app/config/router/router.dart';
 import 'package:weather_app/features/weather/domain/entities/weather.dart';
 import 'package:weather_app/features/weather/presentation/widgets/weather_main_info.dart';
 import 'package:weather_app/features/weather/presentation/widgets/hidden_hills.dart';
@@ -21,19 +23,6 @@ class WeatherDisplay extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Positioned(
-              top: 0.2 * kToolbarHeight,
-              left: 40,
-              child: Text(
-                '📍 ${weather.cityName}',
-                style: const TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-            ),
-            // Основной контент
             CustomScrollView(
               controller: scrollController,
               slivers: [
@@ -61,6 +50,23 @@ class WeatherDisplay extends StatelessWidget {
                 color: Colors.white,
                 fontSize: 55,
                 fontWeight: FontWeight.w600,
+              ),
+            ),
+            Positioned(
+              top: 0.2 * kToolbarHeight,
+              left: 40,
+              child: GestureDetector(
+                onTap: () async {
+                  context.pushRoute(const CityRoute());
+                },
+                child: Text(
+                  '📍 ${weather.cityName}',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
               ),
             ),
           ],
