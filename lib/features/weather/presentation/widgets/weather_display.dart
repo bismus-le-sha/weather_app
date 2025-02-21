@@ -57,7 +57,7 @@ class WeatherDisplay extends StatelessWidget {
               left: 40,
               child: GestureDetector(
                 onTap: () async {
-                  context.pushRoute(const CityRoute());
+                  context.pushRoute(const LocationRoute());
                 },
                 child: Text(
                   '📍 ${weather.cityName}',

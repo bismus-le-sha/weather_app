@@ -15,3 +15,5 @@ class OnLocationChanged extends LocationEvent {
   @override
   List<Object?> get props => [cityName];
 }
+
+class ClearLocation extends LocationEvent {}

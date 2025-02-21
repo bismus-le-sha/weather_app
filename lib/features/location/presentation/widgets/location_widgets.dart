@@ -1,116 +1,112 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/features/location/domain/entities/location.dart';
-import '../../../../config/router/router.dart';
-import '../bloc/location_bloc.dart';
 
-class AsyncSearchAnchor extends StatefulWidget {
-  const AsyncSearchAnchor({super.key});
+import '../cubit/text_field_cubit.dart';
+import 'location_display.dart';
 
-  @override
-  State<AsyncSearchAnchor> createState() => _AsyncSearchAnchorState();
-}
-
-class _AsyncSearchAnchorState extends State<AsyncSearchAnchor> {
-  late final TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+class LocationTitle extends StatelessWidget {
+  const LocationTitle({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildSearchField(context),
-        const SizedBox(height: 10),
-        _buildSearchResults(),
-      ],
-    );
-  }
-
-  Widget _buildSearchField(BuildContext context) {
-    return TextField(
-      controller: _controller,
-      decoration: InputDecoration(
-        hintText: 'Search for a city',
-        prefixIcon: const Icon(Icons.search),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
-      ),
-      onChanged: (query) {
-        context.read<LocationBloc>().add(OnLocationChanged(query.trim()));
+    return BlocSelector<TextFieldCubit, TextFieldState, bool>(
+      selector: (state) => state.hasFocus,
+      builder: (context, hasFocus) {
+        return AnimatedPositioned(
+          top: hasFocus ? -50 : 0.2 * kToolbarHeight + 20,
+          left: 20,
+          duration: const Duration(milliseconds: 300),
+          child: Opacity(
+            opacity: hasFocus ? 0 : 1,
+            child: const Text(
+              'Location Page',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+          ),
+        );
       },
     );
   }
+}
 
-  Widget _buildSearchResults() {
-    return BlocBuilder<LocationBloc, LocationState>(
-      builder: (context, state) {
-        if (state is LocationLoading) {
-          return _buildLoadingIndicator();
-        } else if (state is LocationLoaded) {
-          return _buildLocationList(state.locationList);
-        } else if (state is LocationFailure) {
-          return _buildErrorMessage(state.message);
-        }
-        return const SizedBox();
+class StubContainer extends StatelessWidget {
+  final double screenWidth;
+  final double screenHeight;
+
+  const StubContainer(this.screenWidth, this.screenHeight, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<TextFieldCubit, TextFieldState, bool>(
+      selector: (state) => state.hasFocus,
+      builder: (context, hasFocus) {
+        return AnimatedPositioned(
+          top: hasFocus ? screenHeight * .07 : screenHeight * .12 + 20,
+          left: 20,
+          width: screenWidth * .9,
+          duration: const Duration(milliseconds: 300),
+          child: Container(
+            height: screenHeight * .15,
+            decoration: BoxDecoration(
+              color: Colors.amber,
+              borderRadius: BorderRadius.circular(30),
+            ),
+          ),
+        );
       },
     );
   }
+}
 
-  Widget _buildLoadingIndicator() {
-    return const Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Center(child: CircularProgressIndicator()),
+class OverlayWithTextFieldFocus extends StatelessWidget {
+  const OverlayWithTextFieldFocus({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<TextFieldCubit, TextFieldState, bool>(
+      selector: (state) => state.hasFocus,
+      builder: (context, hasFocus) {
+        return hasFocus
+            ? Positioned.fill(
+                child: IgnorePointer(
+                  ignoring: true,
+                  child: BlocBuilder<TextFieldCubit, TextFieldState>(
+                    builder: (context, state) {
+                      return Container(
+                        color: state.hasText
+                            ? Colors.white
+                            : Colors.black.withAlpha(50),
+                      );
+                    },
+                  ),
+                ),
+              )
+            : Container();
+      },
     );
   }
+}
 
-  Widget _buildLocationList(List<LocationEntity> locations) {
-    if (locations.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Center(child: Text('No results found')),
-      );
-    }
+class LocationInputField extends StatelessWidget {
+  final double screenWidth;
+  final double screenHeight;
 
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxHeight: 300),
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: locations.length,
-        itemBuilder: (context, index) {
-          final location = locations[index];
-          return ListTile(
-            title: Text(location.city),
-            subtitle: Text('${location.region}, ${location.countryName}'),
-            onTap: () => _navigateToWeather(context, location.city),
-          );
-        },
-      ),
+  const LocationInputField(this.screenWidth, this.screenHeight, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<TextFieldCubit, TextFieldState, bool>(
+      selector: (state) => state.hasFocus,
+      builder: (context, hasFocus) {
+        return AnimatedPositioned(
+          top: hasFocus ? 0 : screenHeight * .05 + 20,
+          left: 20,
+          width: screenWidth * .9,
+          duration: const Duration(milliseconds: 300),
+          child: const LocationDisplay(),
+        );
+      },
     );
-  }
-
-  Widget _buildErrorMessage(String message) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Center(
-        child:
-            Text('Error: $message', style: const TextStyle(color: Colors.red)),
-      ),
-    );
-  }
-
-  void _navigateToWeather(BuildContext context, String city) {
-    context.pushRoute(WeatherRoute(cityName: city));
   }
 }

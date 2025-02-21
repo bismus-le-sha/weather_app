@@ -7,7 +7,7 @@ import 'package:weather_app/features/location/domain/entities/location.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/util/network/network_info.dart';
 import '../../domain/repositories/location_repository.dart';
-import '../datasources/location_data_source.dart';
+import '../datasources/remote_location_data_source.dart';
 
 class LocationRepositoryImpl extends LocationRepository {
   final LocationDataSource locationDataSource;

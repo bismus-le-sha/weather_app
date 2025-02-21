@@ -8,9 +8,9 @@ abstract class LocationDataSource {
   Future<List<LocationModel>> getLocationList(String query);
 }
 
-class LocationDataSourceImpl extends LocationDataSource {
+class RemoteLocationDataSourceImpl extends LocationDataSource {
   final http.Client client;
-  LocationDataSourceImpl({required this.client});
+  RemoteLocationDataSourceImpl({required this.client});
 
   @override
   Future<List<LocationModel>> getLocationList(String query) async {

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -9,11 +10,12 @@ import 'package:weather_app/features/weather/data/data_sources/local_data_source
 import 'config/router/router.dart';
 import 'core/service/periodic_weather_handler/periodic_weather_handler.dart';
 import 'core/util/network/network_info.dart';
-import 'features/location/data/datasources/location_data_source.dart';
+import 'features/location/data/datasources/remote_location_data_source.dart';
 import 'features/location/data/repositories/location_repository_impl.dart';
 import 'features/location/domain/repositories/location_repository.dart';
 import 'features/location/domain/usecases/get_location.dart';
 import 'features/location/presentation/bloc/location_bloc.dart';
+import 'features/location/presentation/cubit/text_field_cubit.dart';
 import 'features/weather/data/data_sources/remote_data_source.dart';
 import 'features/weather/data/repositories/weather_repository_impl.dart';
 import 'features/weather/domain/repositories/weather_repository.dart';
@@ -26,8 +28,7 @@ Future<void> init() async {
   //! Features - Weather
 
   // Bloc
-
-  sl.registerLazySingleton(() => WeatherBloc(sl(), sl()));
+  sl.registerFactory(() => WeatherBloc(sl(), sl()));
 
   // Usecase
   sl.registerLazySingleton(() => GetCurrentWeather(sl()));
@@ -49,7 +50,10 @@ Future<void> init() async {
   //!Features - Location
 
   // Bloc
-  sl.registerLazySingleton(() => LocationBloc(sl()));
+  sl.registerFactory(() => LocationBloc(sl()));
+
+  //Cubit
+  sl.registerFactory(() => TextFieldCubit(sl(), sl()));
 
   // Usecase
   sl.registerLazySingleton(() => GetLocation(sl()));
@@ -61,7 +65,7 @@ Future<void> init() async {
 
   // Datasource
   sl.registerLazySingleton<LocationDataSource>(
-      () => LocationDataSourceImpl(client: sl()));
+      () => RemoteLocationDataSourceImpl(client: sl()));
 
   //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
@@ -73,6 +77,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton<InternetConnection>(() => InternetConnection());
+  sl.registerLazySingleton<FocusNode>(() => FocusNode());
+  sl.registerLazySingleton<TextEditingController>(
+      () => TextEditingController());
 
   //! Config
   sl.registerSingleton<AppRouter>(AppRouter());

@@ -14,22 +14,34 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   LocationBloc(this.getLocation) : super(LocationInitial()) {
     on<OnLocationChanged>(
-      (event, emit) async {
-        if (event.cityName.trim().isEmpty) {
-          emit(LocationInitial());
-          return;
-        }
-
-        emit(LocationLoading());
-        final result = await getLocation(LocationParams(query: event.cityName));
-        result.fold(
-          (failure) => emit(LocationFailure(failure.message)),
-          (data) => emit(LocationLoaded(data)),
-        );
-      },
+      _onLocationChanged,
       transformer: (events, mapper) => events
           .debounceTime(const Duration(milliseconds: 500))
+          .distinct((prev, curr) => prev.cityName == curr.cityName)
           .switchMap(mapper),
     );
+    on<ClearLocation>(_onClearLocation);
+  }
+
+  Future<void> _onLocationChanged(
+      OnLocationChanged event, Emitter<LocationState> emit) async {
+    final query = event.cityName.trim();
+    if (query.isEmpty) {
+      emit(LocationInitial());
+      return;
+    }
+
+    emit(LocationLoading());
+
+    final result = await getLocation(LocationParams(query: query));
+    result.fold(
+      (failure) => emit(LocationFailure(failure.message)),
+      (data) => emit(LocationLoaded(data)),
+    );
+  }
+
+  Future<void> _onClearLocation(
+      ClearLocation event, Emitter<LocationState> emit) async {
+    return emit(LocationInitial());
   }
 }
