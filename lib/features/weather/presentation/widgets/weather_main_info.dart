@@ -3,7 +3,6 @@ import 'package:weather_app/features/weather/domain/entities/weather.dart';
 import 'package:weather_app/features/weather/presentation/widgets/weather_icon.dart';
 
 import '../../../../core/util/weather/scroll_calculator.dart';
-import '../../../../core/util/weather/weather_utills.dart';
 
 class WeatherMainInfo extends StatelessWidget {
   final WeatherEntity weather;
@@ -46,9 +45,10 @@ class WeatherMainInfo extends StatelessWidget {
       right: screenSize.width * 0.1 * (-scrollProgress),
       child: Transform.scale(
         scale: 1.0 - 0.5 * scrollProgress,
-        child: getWeatherIcon(
-          getWeatherIconPath(weather.conditionCode, weather.isDay),
-          initialIconSize,
+        child: WeatherIcon(
+          conditionCode: weather.conditionCode,
+          isDay: weather.isDay,
+          size: initialIconSize,
         ),
       ),
     );

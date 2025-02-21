@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/features/location/presentation/bloc/location_bloc.dart';
+import 'package:weather_app/features/location/presentation/cubit/text_field_cubit.dart';
 
+import 'config/router/router.dart';
 import 'features/weather/presentation/bloc/weather_bloc.dart';
-import 'features/weather/presentation/pages/weather_page.dart';
 import 'injection_container.dart' as di;
 
 class WeatherApp extends StatelessWidget {
@@ -12,12 +14,12 @@ class WeatherApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => di.sl<WeatherBloc>(),
-        )
+        BlocProvider(create: (_) => di.sl<WeatherBloc>()),
+        BlocProvider(create: (_) => di.sl<LocationBloc>()),
+        BlocProvider(create: (_) => di.sl<TextFieldCubit>()),
       ],
-      child: const MaterialApp(
-        home: WeatherPage(),
+      child: MaterialApp.router(
+        routerConfig: di.sl<AppRouter>().config(),
       ),
     );
   }
