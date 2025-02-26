@@ -1,6 +1,6 @@
 class Urls {
   static const String baseUrl = 'http://api.weatherapi.com/v1/current.json?';
-  static const String apiKey = 'fbdc389cae0a4befa69171348243112';
+  static const String apiKey = String.fromEnvironment('WEATHER_API_KEY');
   static String currentWeatherByName(String city) =>
       '${baseUrl}key=$apiKey&q=$city&lang=ru';
   static String weatherConditionList(String iconCode) =>
