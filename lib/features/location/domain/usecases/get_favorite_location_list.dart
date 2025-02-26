@@ -4,14 +4,13 @@ import 'package:weather_app/core/usecase/usecase.dart';
 import 'package:weather_app/features/location/domain/entities/location.dart';
 import 'package:weather_app/features/location/domain/repositories/location_repository.dart';
 
-import 'params/location_params.dart';
-
-class GetLocation implements UseCase<List<LocationEntity>, LocationParams> {
+class GetFavoriteLocationList
+    implements UseCase<List<LocationEntity>, NoParams> {
   final LocationRepository locationRepository;
 
-  GetLocation(this.locationRepository);
+  GetFavoriteLocationList(this.locationRepository);
   @override
-  Future<Either<Failure, List<LocationEntity>>> call(params) {
-    return locationRepository.getListLocation(params.query);
+  Future<Either<Failure, List<LocationEntity>>> call(NoParams params) async {
+    return locationRepository.getFavoritestLocationList();
   }
 }

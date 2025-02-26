@@ -1,16 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:weather_app/features/location/domain/usecases/get_location.dart';
+import 'package:weather_app/features/location/domain/usecases/get_location_list.dart';
 import 'package:weather_app/features/location/domain/usecases/params/location_params.dart';
 
-import '../../domain/entities/location.dart';
+import '../../../domain/entities/location.dart';
 
 part 'location_event.dart';
 part 'location_state.dart';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
-  final GetLocation getLocation;
+  final GetLocationList getLocation;
 
   LocationBloc(this.getLocation) : super(LocationInitial()) {
     on<OnLocationChanged>(

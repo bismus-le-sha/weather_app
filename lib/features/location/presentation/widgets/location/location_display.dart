@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/features/location/presentation/cubit/text_field_cubit.dart';
 
-import '../../../../config/router/router.dart';
-import '../../domain/entities/location.dart';
-import '../bloc/location_bloc.dart';
+import '../../../../../config/router/router.dart';
+import '../../../data/models/location_model.dart';
+import '../../../domain/entities/location.dart';
+import '../../bloc/favorite_locations/favorite_location_bloc.dart';
+import '../../bloc/suggested_locations/location_bloc.dart';
 import 'location_search_bar.dart';
 
 class LocationDisplay extends StatelessWidget {
@@ -72,7 +74,7 @@ class LocationDisplay extends StatelessWidget {
     return ListTile(
       title: Text(location.city),
       subtitle: Text('${location.region}, ${location.countryName}'),
-      onTap: () => _navigateToWeather(context, location.city),
+      onTap: () => _navigateToWeather(context, location),
     );
   }
 
@@ -93,7 +95,9 @@ class LocationDisplay extends StatelessWidget {
     );
   }
 
-  void _navigateToWeather(BuildContext context, String city) {
-    context.pushRoute(WeatherRoute(cityName: city));
+  void _navigateToWeather(BuildContext context, LocationEntity location) {
+    context.pushRoute(WeatherRoute(cityName: location.city));
+    BlocProvider.of<FavoriteLocationBloc>(context)
+        .add(AddFavorite(location as LocationModel));
   }
 }
