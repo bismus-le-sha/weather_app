@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/location_bloc.dart';
-import '../cubit/text_field_cubit.dart';
+import '../../bloc/suggested_locations/location_bloc.dart';
+import '../../cubit/text_field_cubit.dart';
 
 class LocationSearchBar extends StatelessWidget {
   const LocationSearchBar({super.key});

@@ -4,11 +4,11 @@ import '../../../../core/constants/url_handler.dart';
 import '../../../../core/error/exceptions.dart';
 import '../models/location_model.dart';
 
-abstract class LocationDataSource {
+abstract class RemoteLocationDataSource {
   Future<List<LocationModel>> getLocationList(String query);
 }
 
-class RemoteLocationDataSourceImpl extends LocationDataSource {
+class RemoteLocationDataSourceImpl extends RemoteLocationDataSource {
   final http.Client client;
   RemoteLocationDataSourceImpl({required this.client});
 

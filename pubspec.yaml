@@ -24,6 +24,7 @@ dependencies:
   intl: ^0.20.1
   collection: ^1.19.0
   auto_route: ^9.3.0+1
+  hydrated_bloc: ^10.0.0
 
 dev_dependencies:
   auto_route_generator: ^9.3.1

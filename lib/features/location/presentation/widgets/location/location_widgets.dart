@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../cubit/text_field_cubit.dart';
+import '../../cubit/text_field_cubit.dart';
 import 'location_display.dart';
 
 class LocationTitle extends StatelessWidget {
@@ -22,35 +22,6 @@ class LocationTitle extends StatelessWidget {
               'Location Page',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class StubContainer extends StatelessWidget {
-  final double screenWidth;
-  final double screenHeight;
-
-  const StubContainer(this.screenWidth, this.screenHeight, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocSelector<TextFieldCubit, TextFieldState, bool>(
-      selector: (state) => state.hasFocus,
-      builder: (context, hasFocus) {
-        return AnimatedPositioned(
-          top: hasFocus ? screenHeight * .07 : screenHeight * .12 + 20,
-          left: 20,
-          width: screenWidth * .9,
-          duration: const Duration(milliseconds: 300),
-          child: Container(
-            height: screenHeight * .15,
-            decoration: BoxDecoration(
-              color: Colors.amber,
-              borderRadius: BorderRadius.circular(30),
             ),
           ),
         );
