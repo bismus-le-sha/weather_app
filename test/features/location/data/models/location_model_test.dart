@@ -8,11 +8,11 @@ import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
   const testLocationModel = LocationModel(
-    countryName: "Russia",
-    city: "Omsk",
-    region: "Omsk",
-    lat: 55,
-    lon: 73.4,
+    countryName: "France",
+    city: "Paris",
+    region: "Ile-de-France",
+    lat: 48.87,
+    lon: 2.33,
   );
 
   test('should be a subclass of LocationEntity', () async {
@@ -41,11 +41,11 @@ void main() {
 
     // Assert
     final expectedJsonMap = {
-      'country': "Russia",
-      'name': "Omsk",
-      'region': "Omsk",
-      'lat': 55,
-      'lon': 73.4,
+      "name": "Paris",
+      "region": "Ile-de-France",
+      "country": "France",
+      "lat": 48.87,
+      "lon": 2.33,
     };
 
     expect(result, equals(expectedJsonMap));
@@ -74,6 +74,6 @@ void main() {
     expect(
         result,
         equals(
-            'LocationModel(city: Moscow, region: Moscow Region, country: Russia, lat: 55.7558, lon: 37.6173)'));
+            'LocationModel(city: Paris, region: Ile-de-France, country: France, lat: 48.87, lon: 2.33)'));
   });
 }
