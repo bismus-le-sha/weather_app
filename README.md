@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/bismus-le-sha/weather_app/badge.svg?branch=main)](https://coveralls.io/github/bismus-le-sha/weather_app?branch=main)
+
 # weather_app
 
 A new Flutter project.

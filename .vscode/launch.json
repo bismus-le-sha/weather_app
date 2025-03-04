@@ -5,19 +5,25 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "weather_app",
+      "name": "Dart: Run all Tests",
+      "type": "dart",
+      "request": "launch",
+      "program": "./test/"
+    },
+    {
+      "name": "Debug",
       "request": "launch",
       "type": "dart",
       "toolArgs": ["--dart-define-from-file", ".env"]
     },
     {
-      "name": "weather_app (profile mode)",
+      "name": "Profile",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"
     },
     {
-      "name": "weather_app (release mode)",
+      "name": "Release",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"
