@@ -16,16 +16,12 @@ jobs:
       all_changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
     steps:
       - uses: actions/checkout@v4
-
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v41
         with:
           files: |
             **/*.dart
-
-      - name: Debug changed files
-        run: echo "Changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
 
   analyzer:
     runs-on: ubuntu-latest
