@@ -16,10 +16,12 @@ import 'package:weather_app/features/weather/domain/repositories/weather_reposit
 import 'package:weather_app/features/weather/domain/usecases/get_current_weather.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:weather_app/features/weather/presentation/bloc/weather_bloc.dart';
 
 @GenerateMocks(
   [
     //weather
+    WeatherBloc,
     WeatherRepository,
     WeatherRemoteDataSource,
     WeatherLocalDataSource,
