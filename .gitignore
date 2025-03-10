@@ -49,3 +49,6 @@ app.*.map.json
 
 # Ignore Coverage
 coverage/
+
+# CXX ignore
+/android/app/.cxx
