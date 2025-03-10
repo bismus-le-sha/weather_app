@@ -1,4 +1,5 @@
 [![Coverage Status](https://coveralls.io/repos/github/bismus-le-sha/weather_app/badge.svg?branch=main)](https://coveralls.io/github/bismus-le-sha/weather_app?branch=main)
+[![Codemagic build status](https://api.codemagic.io/apps/67ceca8da2e3880a5c9f1b35/67ceca8da2e3880a5c9f1b34/status_badge.svg)](https://codemagic.io/app/67ceca8da2e3880a5c9f1b35/67ceca8da2e3880a5c9f1b34/latest_build)
 
 # weather_app
 
