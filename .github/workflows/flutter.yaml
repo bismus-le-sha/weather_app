@@ -69,6 +69,22 @@ jobs:
       - name: Format code
         run: dart format -l 120 --set-exit-if-changed ${{ needs.changes.outputs.all_changed_files }}
 
+      - name: Check if files are changed after formatting
+        id: check-changes
+        run: |
+          git diff --exit-code || echo "Changes detected"
+
+      - name: Commit and push changes
+        if: steps.check-changes.outputs.stdout != ''
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add .
+          git commit -m "Auto-format code"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   test_coverage:
     runs-on: ubuntu-latest
     needs: [analyzer, formatter]
