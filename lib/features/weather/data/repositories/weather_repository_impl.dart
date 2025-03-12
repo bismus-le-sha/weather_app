@@ -11,7 +11,7 @@ import '../../domain/repositories/weather_repository.dart';
 import '../data_sources/local_data_source.dart';
 import '../data_sources/remote_data_source.dart';
 
-class WeatherRepositoryImpl extends WeatherRepository {
+class WeatherRepositoryImpl implements WeatherRepository {
   final WeatherRemoteDataSource weatherRemoteDataSource;
   final WeatherLocalDataSource weatherLocalDataSource;
   final NetworkInfo networkInfo;

@@ -29,18 +29,16 @@ jobs:
     if: needs.changes.outputs.any_changed == 'true'
     steps:
       - uses: actions/checkout@v4
-      - uses: kuhnroyal/flutter-fvm-config-action/config@v3
-        id: fvm-config-action
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          flutter-version: "3.29"
+          channel: "stable"
 
       - name: Cache pub dependencies
         uses: actions/cache@v3
         with:
           path: ~/.pub-cache
-          key: flutter-${{ runner.os }}-${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}-pub
+          key: flutter-${{ runner.os }}-3.29-pub
 
       - name: Get dependencies
         run: flutter pub get
@@ -54,24 +52,38 @@ jobs:
     if: needs.changes.outputs.any_changed == 'true'
     steps:
       - uses: actions/checkout@v4
-      - uses: kuhnroyal/flutter-fvm-config-action/config@v3
-        id: fvm-config-action
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          flutter-version: "3.29"
+          channel: "stable"
 
       - name: Cache pub dependencies
         uses: actions/cache@v3
         with:
           path: ~/.pub-cache
-          key: flutter-${{ runner.os }}-${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}-pub
+          key: flutter-${{ runner.os }}-3.29-pub
 
       - name: Get dependencies
         run: flutter pub get
 
       - name: Format code
         run: dart format -l 120 --set-exit-if-changed ${{ needs.changes.outputs.all_changed_files }}
+
+      - name: Check if files are changed after formatting
+        id: check-changes
+        run: |
+          git diff --exit-code || echo "Changes detected"
+
+      - name: Commit and push changes
+        if: steps.check-changes.outputs.stdout != ''
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add .
+          git commit -m "Auto-format code"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   test_coverage:
     runs-on: ubuntu-latest
@@ -84,6 +96,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.29"
+          channel: "stable"
 
       - name: Cache pub dependencies
         uses: actions/cache@v3
